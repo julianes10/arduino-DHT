@@ -26,8 +26,8 @@
    2013-07-01: Add a resetTimer method
  ******************************************************************/
 
-#ifndef dht_h
-#define dht_h
+#ifndef dht_DHT_lowfootprint_h
+#define dht_DHT_lowfootprint_h
 
 #if ARDUINO < 100
   #include <WProgram.h>
@@ -35,7 +35,7 @@
   #include <Arduino.h>
 #endif
 
-class DHT
+class DHT_lowfootprint
 {
 public:
 

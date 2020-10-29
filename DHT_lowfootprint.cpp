@@ -26,37 +26,37 @@
    2013-07-01: Add a resetTimer method
  ******************************************************************/
 
-#include "DHT.h"
+#include "DHT_lowfootprint.h"
 
-void DHT::setup(uint8_t pin, DHT_MODEL_t model)
+void DHT_lowfootprint::setup(uint8_t pin, DHT_MODEL_t model)
 {
-  DHT::pin = pin;
-  DHT::model = model;
-  DHT::resetTimer(); // Make sure we do read the sensor in the next readSensor()
+  DHT_lowfootprint::pin = pin;
+  DHT_lowfootprint::model = model;
+  DHT_lowfootprint::resetTimer(); // Make sure we do read the sensor in the next readSensor()
 
   if ( model == AUTO_DETECT) {
-    DHT::model = DHT22;
+    DHT_lowfootprint::model = DHT22;
     readSensor();
     if ( error == ERROR_TIMEOUT ) {
-      DHT::model = DHT11;
+      DHT_lowfootprint::model = DHT11;
       // Warning: in case we auto detect a DHT11, you should wait at least 1000 msec
       // before your first read request. Otherwise you will get a time out error.
     }
   }
 }
 
-void DHT::resetTimer()
+void DHT_lowfootprint::resetTimer()
 {
-  DHT::lastReadTime = millis() - 3000;
+  DHT_lowfootprint::lastReadTime = millis() - 3000;
 }
 
-float DHT::getHumidity()
+float DHT_lowfootprint::getHumidity()
 {
   readSensor();
   return humidity;
 }
 
-float DHT::getTemperature()
+float DHT_lowfootprint::getTemperature()
 {
   readSensor();
   return temperature;
@@ -64,13 +64,13 @@ float DHT::getTemperature()
 
 #ifndef OPTIMIZE_SRAM_SIZE
 
-const char* DHT::getStatusString()
+const char* DHT_lowfootprint::getStatusString()
 {
   switch ( error ) {
-    case DHT::ERROR_TIMEOUT:
+    case DHT_lowfootprint::ERROR_TIMEOUT:
       return "TIMEOUT";
 
-    case DHT::ERROR_CHECKSUM:
+    case DHT_lowfootprint::ERROR_CHECKSUM:
       return "CHECKSUM";
 
     default:
@@ -87,13 +87,13 @@ prog_char P_OK[]       PROGMEM = "OK";
 prog_char P_TIMEOUT[]  PROGMEM = "TIMEOUT";
 prog_char P_CHECKSUM[] PROGMEM = "CHECKSUM";
 
-const char *DHT::getStatusString() {
+const char *DHT_lowfootprint::getStatusString() {
   prog_char *c;
   switch ( error ) {
-    case DHT::ERROR_CHECKSUM:
+    case DHT_lowfootprint::ERROR_CHECKSUM:
       c = P_CHECKSUM; break;
 
-    case DHT::ERROR_TIMEOUT:
+    case DHT_lowfootprint::ERROR_TIMEOUT:
       c = P_TIMEOUT; break;
 
     default:
@@ -108,7 +108,7 @@ const char *DHT::getStatusString() {
 
 #endif
 
-void DHT::readSensor()
+void DHT_lowfootprint::readSensor()
 {
   // Make sure we don't poll the sensor too often
   // - Max sample rate DHT11 is 1 Hz   (duty cicle 1000 ms)
